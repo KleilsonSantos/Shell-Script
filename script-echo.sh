@@ -9,6 +9,27 @@
 # Version:	0.0.1
 #------------------------------------------------------------------------
 
+usage() {
+	echo "Uso: $(basename "$0")"
+	echo "     $(basename "$0") --help"
+	echo ""
+	echo "Exibe uma mensagem e a data atual do sistema."
+}
+
+case "${1:-}" in
+	-h|--help)
+		usage
+		exit 0
+		;;
+	"")
+		;;
+	*)
+		echo "Parâmetro inválido: $1" >&2
+		usage >&2
+		exit 1
+		;;
+esac
+
 # -> Inicio do script
 # Comando echo, imprime o conteudo do que esta entre as aspas -> ""
 echo "===================================="

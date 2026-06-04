@@ -9,6 +9,27 @@
 # Version:	0.1.5
 #--------------------------------------------------------------------
 
+usage() {
+	echo "Uso: $(basename "$0")"
+	echo "     $(basename "$0") --help"
+	echo ""
+	echo "Exibe uma barra de progresso simulada."
+}
+
+case "${1:-}" in
+	-h|--help)
+		usage
+		exit 0
+		;;
+	"")
+		;;
+	*)
+		echo "Parâmetro inválido: $1" >&2
+		usage >&2
+		exit 1
+		;;
+esac
+
 # Declarando variável _ARRAY, o parâmetro "-r" indica 
 # que a variável e apenas leitura (read)
 declare -r _ARRAY=(/ / / / / / / / / / / / / / / / / / / / / / / / / / / / / /)
@@ -32,8 +53,13 @@ declare -r _BAR_TYPE="##############################"
 declare -r _TOTAL=${#_ARRAY[@]}
 #echo $_TOTAL
 
+cursor_hidden=false
+
 # Esconde o cursor
-tput civis -- invisible
+if [ -t 1 ] && command -v tput >/dev/null 2>&1 && tput civis >/dev/null 2>&1; then
+	tput civis
+	cursor_hidden=true
+fi
 
 # Simulando carregamento de um comando executando
 echo "Loading..."
@@ -59,4 +85,6 @@ done
 # Pulando linha após termino do barra de progresso
 echo ""
 # Mostra o cursor
-tput cnorm -- normal
+if [ "$cursor_hidden" = "true" ]; then
+	tput cnorm
+fi
