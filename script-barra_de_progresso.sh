@@ -53,12 +53,12 @@ declare -r _BAR_TYPE="##############################"
 declare -r _TOTAL=${#_ARRAY[@]}
 #echo $_TOTAL
 
-CURSOR_HIDDEN=false
+cursor_hidden=false
 
 # Esconde o cursor
 if [ -t 1 ] && command -v tput >/dev/null 2>&1 && tput civis >/dev/null 2>&1; then
 	tput civis
-	CURSOR_HIDDEN=true
+	cursor_hidden=true
 fi
 
 # Simulando carregamento de um comando executando
@@ -85,6 +85,6 @@ done
 # Pulando linha após termino do barra de progresso
 echo ""
 # Mostra o cursor
-if [ "$CURSOR_HIDDEN" = "true" ]; then
+if [ "$cursor_hidden" = "true" ]; then
 	tput cnorm
 fi
